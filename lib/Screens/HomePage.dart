@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+  static const routeName='homepage';
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+
   int _selectedIndex = 0;
 
   @override
@@ -38,9 +40,9 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ExpenseCard(),
-                    ExpenseCard(),
-                    ExpenseCard(),
+                    CategoryCards(),
+                    CategoryCards(),
+                    CategoryCards(),
                   ],
                 ),
               ),
@@ -72,42 +74,46 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class ExpenseCard extends StatelessWidget {
-  const ExpenseCard({
+class CategoryCards extends StatelessWidget {
+  const CategoryCards({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // margin:const EdgeInsets.only(left: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: const Color.fromARGB(160, 58, 216, 216),
-      ),
-      height: 400,
-      width: 240,
-      child: Column(
-        children: [
-          Flexible(
-            child: Container(),
-            flex: 1,
-          ),
-          const CircleAvatar(
-            radius: 70,
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1655634338062-fb8c2297a05e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=1000&q=60'),
-          ),
-          const SizedBox(
-            height: 70,
-          ),
-          const Text('Eductaion',
-              style: TextStyle(fontSize: 28)),
-          Flexible(
-            child: Container(),
-            flex: 1,
-          ),
-        ],
+    return InkWell(
+      onTap: ()=> Navigator.of(context).pushNamed('cardscreen'),
+      child: Container(
+        // padding: const EdgeInsets.symmetric(horizontal: 15,),
+        margin:const EdgeInsets.symmetric(horizontal: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: const Color.fromARGB(160, 58, 216, 216),
+        ),
+        height: 400,
+        width: 240,
+        child: Column(
+          children: [
+            Flexible(
+              child: Container(),
+              flex: 1,
+            ),
+            const CircleAvatar(
+              radius: 70,
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1655634338062-fb8c2297a05e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=1000&q=60'),
+            ),
+            const SizedBox(
+              height: 70,
+            ),
+            const Text('Eductaion',
+                style: TextStyle(fontSize: 28)),
+            Flexible(
+              child: Container(),
+              flex: 1,
+            ),
+          ],
+        ),
       ),
     );
   }
