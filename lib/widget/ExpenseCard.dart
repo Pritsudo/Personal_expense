@@ -25,6 +25,7 @@ class _AddNewCardState extends State<ExpenseCard> {
         height: 500,
         child: Column(
           children: [
+            
             TextInputField(title: 'Title', controller: widget.titlecontroller),
             TextInputField(
               title: 'Price',
