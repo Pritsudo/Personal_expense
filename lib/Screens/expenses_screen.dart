@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widget/ExpenseCard.dart';
+import 'package:personal_expense/providers/expense_provider.dart';
+import 'package:provider/provider.dart';
+import '../widget/add_expense_card.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({Key? key}) : super(key: key);
@@ -28,7 +30,15 @@ class _CardScreenState extends State<CardScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _priceController.dispose();
+    _titleController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final expenceList = Provider.of<Expenses>(context).expenses;
     return Container(
       decoration: const BoxDecoration(
         color: Color.fromARGB(223, 58, 216, 216),
@@ -44,15 +54,26 @@ class _CardScreenState extends State<CardScreen> {
           title: const Text('See Expenses'),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              DetailCard(),
-              DetailCard(),
-              DetailCard(),
-            ],
-          ),
-        ),
+        body: Consumer<Expenses>(builder: ((context, value, child) {
+          return ListView.builder(
+              itemCount: expenceList.length,
+              itemBuilder: (context, index) {
+                return DetailCard(
+                  amount: expenceList[index].price,
+                  title: expenceList[index].title,
+                );
+              });
+        })),
+
+        // SingleChildScrollView(
+        //   child: Column(
+        //     children: [
+        //       DetailCard(),
+        //       DetailCard(),
+        //       DetailCard(),
+        //     ],
+        //   ),
+        // ),
         floatingActionButton: IconButton(
           onPressed: () => addCard(context),
           icon: const Icon(Icons.add_circle_sharp),
@@ -64,15 +85,19 @@ class _CardScreenState extends State<CardScreen> {
 }
 
 class DetailCard extends StatelessWidget {
+  final String title;
+  final double amount;
   const DetailCard({
     Key? key,
+    required this.title,
+    required this.amount,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      child: Card(
+      child: const Card(
         child: ListTile(
           title: Text('Hello',
               style: TextStyle(
