@@ -13,18 +13,13 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-
   void addCard(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
           return GestureDetector(
             onTap: () {},
-            child: ExpenseCard(
-                titlecontroller: _titleController,
-                priceController: _priceController),
+            child: ExpenseCard(),
           );
         });
   }
@@ -32,8 +27,6 @@ class _CardScreenState extends State<CardScreen> {
   @override
   void dispose() {
     super.dispose();
-    _priceController.dispose();
-    _titleController.dispose();
   }
 
   @override
@@ -59,8 +52,8 @@ class _CardScreenState extends State<CardScreen> {
               itemCount: expenceList.length,
               itemBuilder: (context, index) {
                 return DetailCard(
-                  amount: expenceList[index].price,
-                  title: expenceList[index].title,
+                  amount: value.expenses[index].price,
+                  title: value.expenses[index].title,
                 );
               });
         })),
@@ -97,14 +90,15 @@ class DetailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      child: const Card(
+      child: Card(
         child: ListTile(
-          title: Text('Hello',
-              style: TextStyle(
+          title: Text(title,
+              style: const TextStyle(
                 fontSize: 18,
               )),
-          trailing: Text('\₹${'20'}',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          trailing: Text('\₹${amount}',
+              style:
+                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         ),
       ),
     );

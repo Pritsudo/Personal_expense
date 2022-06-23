@@ -7,13 +7,8 @@ import 'package:uuid/uuid.dart';
 import 'TextInputField.dart';
 
 class ExpenseCard extends StatefulWidget {
-  final TextEditingController titlecontroller;
-  final TextEditingController priceController;
-
   const ExpenseCard({
     Key? key,
-    required this.titlecontroller,
-    required this.priceController,
   }) : super(key: key);
 
   @override
@@ -21,18 +16,21 @@ class ExpenseCard extends StatefulWidget {
 }
 
 class _AddNewCardState extends State<ExpenseCard> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   var uuid = Uuid();
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<Expenses>(context);
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         height: 500,
         child: Column(
           children: [
-            TextInputField(title: 'Title', controller: widget.titlecontroller),
+            TextInputField(title: 'Title', controller: _titleController),
             TextInputField(
               title: 'Price',
-              controller: widget.priceController,
+              controller: _priceController,
               isNumber: true,
             ),
             ElevatedButton(
@@ -40,11 +38,12 @@ class _AddNewCardState extends State<ExpenseCard> {
                     primary: Color.fromARGB(223, 58, 216, 216)),
                 onPressed: () {
                   final expense = ExpenseModel(
-                      title: widget.titlecontroller.text,
-                      price: double.parse(widget.priceController.text),
+                      title: _titleController.text,
+                      price: double.parse(_priceController.text),
                       id: uuid.v1());
 
-                  Expenses().addExpense(expense);
+                  provider.addExpense(expense);
+                  FocusNode().unfocus();
                   Navigator.pop(context);
                 },
                 child: const Text('Save'))

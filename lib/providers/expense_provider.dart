@@ -1,10 +1,9 @@
 import 'dart:ffi';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:personal_expense/models/expense_model.dart';
 
-class Expenses with ChangeNotifier {
+class Expenses extends ChangeNotifier {
   List<ExpenseModel> _expenses = [];
 
   List<ExpenseModel> get expenses {
